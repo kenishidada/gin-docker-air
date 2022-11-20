@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app/src/:/go/src
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.31
+    restart: always
+    environment:
+      MYSQL_DATABASE: makebody
+      MYSQL_USER: neko
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - "33066:3306"
